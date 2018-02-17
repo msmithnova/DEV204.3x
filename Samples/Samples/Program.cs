@@ -22,7 +22,7 @@ namespace Samples
             double dblResult = CylinderVolume(radius, height);
             Console.WriteLine($"Result is {dblResult}");
 
-            // Bubble Sort, 
+            // Bubble Sort
             BubbleSortTest();
             SortTest(100, 100, BubbleSort, true);
             Console.WriteLine("Testing BubbleSort with 10000 ints.");
@@ -42,9 +42,17 @@ namespace Samples
             // swapped it does so and then works backward through the array with that number until
             // it doesnt need to be swapped any more. Then continues forward in the array where it
             // left off before it started going backwards.
+            // This is basically Insertion Sort but non optimized algorithm
             SortTest(100, 100, BubbleSortEnh2, true);
             Console.WriteLine("Testing BubbleSortEnh2 with 10000 ints.");
             SortTest(10000, 10000, BubbleSortEnh2, false);
+            Console.WriteLine();
+
+            // Insertion Sort
+            InsertionSortTest();
+            SortTest(100, 100, InsertionSort, true);
+            Console.WriteLine("Testing InsertionSort with 10000 ints.");
+            SortTest(10000, 10000, InsertionSort, false);
             Console.WriteLine();
         }
 
@@ -190,6 +198,7 @@ namespace Samples
         // Similar to BubbleSort but it goes through the array only once forward. When it finds a
         // number to swap it continues swapping it backwards through the array only as far as needed.
         // It then continues going forward from where it left off.
+        // This is basically Insertion Sort but non optimized algorithm
         static void BubbleSortEnh2(int[] nums)
         {
             bool swapped = false;
@@ -232,6 +241,60 @@ namespace Samples
             method(nums);
             watch.Stop();
             return watch.ElapsedMilliseconds;
+        }
+
+        // Basic test of Bubble Sort
+        static void InsertionSortTest()
+        {
+            // Declare an integer array that is not sorted
+            int[] arr = { 7, 8, 4, 6, 2, 1 };
+
+            // Output the values of the array to the console
+            Console.WriteLine("Array before sort: 7,8,4,6,2,1");
+
+            InsertionSort(arr);
+
+            // output the sorted array to the console
+
+            Console.Write("After: ");
+            OutputIntArray(arr);
+        }
+
+        // Classic Insertion Sort
+        static void InsertionSort(int[] arr)
+        {
+            // Declare variable for the insertion value
+            int newValue;
+
+
+            // The outer loop allows us to iterate over the complete array that we will use for sorting
+            for (int i = 1; i < arr.Length; i++)
+            {
+                // set newValue equal to the second element in the array
+                // we don't start at the first element because it has no preceding value
+                // which means we can't move it any further forward in the array
+                newValue = arr[i];
+
+                // Also set the start of our inner loop to the same value as i
+                int j = i;
+
+                // This loop will check the value of j to ensure we have not reached the end of the iteration (j = 0)
+                // but also checks to see if the value preceding the current value is larger.
+                // If it is, we "swap" the value before this one, decrement j, and then test against the next value
+                // This continues until we run out of numbers in the array (j = 0) or there are no more values larger than
+                // the current number (newValue) to it's left (preceding it).
+                while (j > 0 && arr[j - 1] > newValue)
+                {
+
+                    arr[j] = arr[j - 1];
+
+                    j--;
+
+                }
+
+                arr[j] = newValue;
+
+            }
         }
     }
 }
